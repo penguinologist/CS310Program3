@@ -1,0 +1,213 @@
+loading db to disk
+loaded db to disk, creating index....
+index completed
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+2
+What's the name of the mountain you're looking for?
+Sill, Mount
+Yep! We've got one of those here
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+2
+What's the name of the mountain you're looking for?
+Silly, Mount
+Nope, can't find that here...
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+2
+What's the name of the mountain you're looking for?
+Everest
+Yep! We've got one of those here
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+GMU, Mount
+What's the country in which the mountain is situated?
+United States
+How tall is this 'mountain'?
+31000
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+Hooha Peak
+Please make a valid selection
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Hooha Peak
+What's the country in which the mountain is situated?
+Canada
+How tall is this 'mountain'?
+3
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+2
+What's the name of the mountain you're looking for?
+GMU, Mount
+Yep! We've got one of those here
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Snargle 1, Mount
+What's the country in which the mountain is situated?
+United States
+How tall is this 'mountain'?
+237
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Snargle 2, Mount
+What's the country in which the mountain is situated?
+Luxembourg
+How tall is this 'mountain'?
+29334
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Snargle 3, Mount
+What's the country in which the mountain is situated?
+Thailand
+How tall is this 'mountain'?
+0
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Snargle 4, Mount
+What's the country in which the mountain is situated?
+Detroit
+How tall is this 'mountain'?
+200
+continuing to the overflow sectors...
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Snargle 5, Mount
+What's the country in which the mountain is situated?
+Hole in the Ground
+How tall is this 'mountain'?
+-7
+continuing to the overflow sectors...
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Snargle 6, Mount
+What's the country in which the mountain is situated?
+Guinea-Bissau
+How tall is this 'mountain'?
+10110
+continuing to the overflow sectors...
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Snargle 7, Mount
+What's the country in which the mountain is situated?
+Uruguay
+How tall is this 'mountain'?
+888
+continuing to the overflow sectors...
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Snargle 8, Mount
+What's the country in which the mountain is situated?
+Mars
+How tall is this 'mountain'?
+20682
+continuing to the overflow sectors...
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Snargle 9, Mount
+What's the country in which the mountain is situated?
+Canada
+How tall is this 'mountain'?
+3
+continuing to the overflow sectors...
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+1
+What's the name of the mountain?
+Snargle 10, Mount
+What's the country in which the mountain is situated?
+Delaware
+How tall is this 'mountain'?
+14010
+continuing to the overflow sectors...
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+2
+What's the name of the mountain you're looking for?
+Snargle 10, Mount
+continuing to the overflow sectors...
+Yep! We've got one of those here
+Main menu:
+1) Insert record
+2) Find record
+3) Quit
+Enter one of the option numbers to proceed.
+3
