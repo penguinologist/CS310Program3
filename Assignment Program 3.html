@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0045)https://cs.gmu.edu/~dnord/cs310/program3.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Program 3</title>
+  <meta name="generator" content="Bluefish 2.2.1">
+  
+<style type="text/css"></style></head>
+<body>
+<font size="+1" face="serif">
+
+<div align="center">
+<h2>CS 310<br>
+Program 3</h2>
+<h3>due:<br>
+Section 001 (Tuesday-Thursday section): May 5, 2015<br>
+Sections 002, 003 (Monday-Wednesday sections): May 4, 2015
+</h3>
+</div>
+
+<h3>The program</h3>
+
+<p>You will create a <em>statically indexed file</em> on a simulated disk.  The
+simulated disk will be an instance of the disk class described below and can be
+viewed as an array of "sectors."  Each sector will hold 512 characters.  The
+indexed file will be arranged on the disk in three groups of sectors:  the
+first (and largest) block of sectors will hold <em>data</em>, (the "records"),
+the second will hold the <em>index</em>, and the third will be <em>overflow</em>
+sectors. The index will be a <em>multi-way tree</em>. These sectors will
+together be an instance of the <em>IndexedFile</em> class.
+</p>
+
+<p>
+You will also write a simple application which will create a disk and an
+indexed file using data to be provided to you.
+</p>
+
+<h3>The Disk class</h3>
+
+<p>
+You will create a <tt>Disk</tt> class.  The disk used for this program will 
+then be an instance of this class.  A disk will be a two dimensional array of 
+<tt>char</tt>, i.e. an array of <tt>char</tt> arrays.  You should view this as 
+an array of <em>sectors</em> where each sector is an array of characters.  The 
+number of sectors in a disk and the size of the sectors is arbitrary, but a 
+default size is 10,000 sectors on a disk with 512 characters in each sector.  
+The class definition for disk is:</p>
+
+<tt><blockquote><pre>public class Disk
+{
+   private int sectorCount;   // sectors on the disk
+   private int sectorSize;    // characters in a sector
+   private char[][] store;    // all disk data is stored here
+   public Disk()    // for default sectorCount and sectorSize
+   {}
+   public Disk(int sectorCount, int sectorSize)
+   {}
+   public void readSector(int sectorNumber, char[] buffer)   // sector to 
+   {}                                                        // buffer
+   public void writeSector(int sectorNumber, char[] buffer)  // buffer to
+   {}                                                        // sector 
+   public int getSectorCount()
+   {
+      return sectorCount;
+   }
+   public int getSectorSize()
+   {
+      return sectorSize;
+   }
+}
+</pre></blockquote></tt>
+
+<p>
+<tt>sectorCount</tt> is the number of sectors in the disk and 
+<tt>sectorSize</tt> is the number of characters in a sector.  <tt>char[][]
+store</tt> is a reference to the 2-dimensional array which must be allocated by 
+the constructor.
+</p>
+
+<h3>Reading and writing to the disk</h3>
+
+<p>
+You can only read and write to the disk <em>a sector at a time.</em>  A 
+<em>disk buffer</em> which is a character array of the same size as a sector 
+must be available.  The <tt>writeSector</tt> method will copy the contents 
+of its second parameter (which should be your disk buffer) to the sector whose 
+number is the first argument.  The previous contents of the sector will be 
+overwritten. The <tt>readSector</tt> method will copy the contents of 
+the sector whose number is the first parameter to the character array which is 
+the second parameter.  All access to the disk will be through these two 
+methods.  (Note:  The disk buffer you will use will be part of the 
+IndexedFile class described below.)
+</p>
+
+<h3>Indexed files</h3>
+
+<p>
+A <em>direct access file</em> stores records in such a way that a record can be 
+read or written to the file without reading or writing the entire file.  Each 
+record must contain a unique <em>key</em> field.  The value of this key field
+(the "key") will be used to determine where the record is stored on the disk. 
+The record can then be read given only the key.  One implementation of direct
+access file is <em>statically indexed file</em>.  You will implement indexed
+files by
+creating an <tt>IndexedFile</tt> class with the following class definition:
+</p>
+
+<tt><blockquote><pre>public class IndexedFile
+{
+   private Disk disk;             // disk on which the file will be written
+   private char[] buffer;         // disk buffer
+   private int recordSize;        // in characters
+   private int keySize;           // in characters
+   private indexRecordSize;       // in characters
+   // fields describing data portion of file
+   private int recordsPerSector;  // sectorSize/recordSize
+   private int firstAllocated;    // sector number where data begins
+   private int sectorsAllocated;  // sectors originally allocated for data
+   private int overflowStart;     // sector number where overflow begins
+   private int overflowSectors;   // count of overflow sectors in use
+   // fields describing index portion of file
+   private int indexStart;        // sector number where index begins
+   private int indexSectors;      // number of sectors allocated for index
+   private int indexRoot;         // sector number of root of index
+   private int indexLevels;       // number of levels of index
+   
+   public IndexedFile(Disk disk, int recordSize, int keySize, int
+                      indexRecordSize int firstAllocated, int indexStart,
+                      int indexSectors, int indexRoot, int indexLevels)
+   {}
+   public boolean insertRecord(char[] record)
+   {}   
+   public boolean findRecord(char[] record)
+   {}   
+   // there is no delete operation
+   private int getSector(char[] key)   // returns sector number indicated by key
+   {}  
+   
+}
+</pre></blockquote></tt>
+
+<p>
+The <tt>insertRecord</tt> method will take an entire record as a
+parameter.  The first several characters (as determined by <tt>keySize</tt>)
+are the key.  The <tt>findRecord</tt> method will take a character
+array <em>the length of</em> a record as a parameter.  The first 
+<tt>keySize</tt> characters of this array will hold the key of the record being 
+searched for.  <tt>findRecord</tt> will then overwrite this array with the 
+entire record if it is found in the file.   If <tt>insertRecord</tt> finds that 
+there is already a record in the file with the given key it will not perform an 
+insert but will return <tt>false</tt>. If <tt>findRecord</tt> cannot locate a 
+record in the file with the given key it will return <tt>false</tt>.  Either 
+method will return <tt>true</tt> if successful.
+</p>
+
+<p>
+To <em>insert</em> a new record into the file the <tt>insertRecord</tt> 
+method will use the key value to locate the sector in which the record should 
+be placed.  It locates the sector by calling the (private) <tt>getSector</tt> 
+method which reads the index described below.  The 
+<tt>insertRecord</tt> method will then copy this sector to the disk buffer.
+If a record with the same key is found as the new record to be inserted no 
+further action will be taken and <tt>false</tt> will be returned.  Otherwise 
+<tt>insertRecord</tt> will copy the record into an available position (if there 
+is one) in the disk buffer, write the disk buffer back to the disk, and 
+return <tt>true</tt>.
+</p>
+
+<p>
+If the sector read was full <tt>insertRecord</tt> will read the
+<em>overflow</em> sectors sequentially until either it finds a record with the
+given key (in which case it returns <tt>false</tt>) or finds an overflow sector
+which has space available for a new record,  The new record is then inserted
+into this sector.  Of course, the overflow sectors are read and written by
+copying the sectors to the disk buffer and, if called for, modifying the disk
+buffer which is then written back to the disk.
+</p>
+
+<p>
+<tt>findRecord</tt> will use the (private) <tt>getSector</tt> method to
+locate the sector in which the record should be located.  If the record is found 
+there  the record will be copied (as described above) into the parameter string.  
+If the record is <em>not</em> found and <em>if the sector is full</em> the
+overflow sectors will be searched sequentially to find the requested record.
+</p>
+
+
+<h3>The overflow sectors</h3>
+
+<p>
+When a new record cannot be inserted into the sector indicated by the index it
+is put into an <em>overflow sector</em>.  The records are placed into the 
+overflow sectors in the order in which the insertions are done.  I.e., they are 
+not in any sorted order -- if the records in the overflow sectors are viewed as 
+a list of records, a new record is just placed at the end.
+</p>
+
+<p>
+The first time an "overflow record" is written to the file the first overflow
+sector is allocated.  This will be the first sector on the disk <em>after</em>
+the index.  When this sector is filled and another overflow record is to be
+written the <em>next sector on the disk</em> is allocated as an overflow
+sector, etc.  Thus the overflow sectors will form a sequential block of sectors.
+</p>
+
+<p>
+The first overflow sector is allocated by placing its sector number in the
+<tt>overflowStart</tt> field of the <tt>IndexedFile</tt> class and setting
+<tt>overflowSectors</tt> to 1.  Thereafter <tt>overflowSectors</tt> is just
+incremented to allocate a new disk sector.
+</p>
+
+<h3>The index</h3>
+
+<p>
+The index will be a <em>multi-way tree</em>.  That is it will be a tree where
+each node can have up to <tt>n</tt> children where the integer <tt>n</tt> will
+depend on the key size and on the size of the disk sectors.
+</p>
+
+<p>
+Each node of the tree will be held in one sector.  An <em>index record</em>
+will have two fields:  a <em>key field</em> and a <em>sector number field</em>.
+Both of these fields are stored as '\000'-terminated character arrays (see below 
+for a brief discussion of this).  The key field is the same length as the key 
+field of the data being stored in the file. The sector number field holds the 
+number of the sector where the data record with the corresponding key (and 
+several more data records) can be found.  This number is stored <em>as 
+characters which represent the digits of the decimal representation of the 
+number</em>.  The sector number field is seven characters long, enough space for 
+six digits and a terminator.  Thus the sector number field can store values from 
+0 to 999999.  The index records are arranged one after another in the sector.  
+The sector number fields can be viewed as pointers to a child node in the tree 
+or, in the case of a leaf node, to a data sector.
+</p>
+
+<p>
+The index is built <em>after</em> 
+the data sectors (but no overflow sectors) have been written to the disk.  The 
+data records will be arranged in (ascending) sorted key order on the disk.  If 
+<tt>n</tt> is the number of index records in a sector then the <em>lowest</em> 
+row of the tree is constructed first as follows:  The key from the first data 
+record in the first data sector (and the sector number) form the first index 
+record in the first index sector, the key from the first data record in the 
+second data sector (and the sector number) form the second index record of the 
+first index record, and so forth. After <tt>n</tt> index records have been 
+created the sector is filled (and written to disk) and the process continues 
+building the second index sector using the <em>next disk sector</em> after the 
+one just written.  This continues until index records have been created for 
+every data sector in the file.  This process is repeated to create a row of 
+"nodes" (sectors) with records which point to the just created <em>index 
+sectors</em>.  Further rows are created until a row consisting of a single 
+sector is created.  This will be the root of the index tree and its sector 
+number will be the <tt>indexRoot</tt> field of the <tt>IndexedFile</tt> class.  
+Note that the root will be the <em>last</em> sector stored in the index.</p>
+
+<p>
+The code for creating the index must be in a class other than the <tt>IndexedFile</tt>
+class.
+</p>
+
+<h3>The application</h3>
+
+<p>
+You will create an instance of <tt>Disk</tt> and an instance of 
+<tt>IndexedFile</tt> which uses that disk.  The disk will have 10000 sectors, 
+each having 512 characters.  A file with (sorted) data will be provided to you. 
+Your program will read this file, build records, and write them into consecutive 
+disk sectors beginning at sector 1000 of your simulated disk.  When you initially
+build the data sectors leave space in each sector for <em>three</em>
+additional records.  Thus several insertions can be made into any sector before 
+it is necessary to write to an overflow sector.  Your program will then build an
+index, as described above, beginning with the first sector following those used
+for data.  The sectors immediately following the index will be used for
+overflow.
+</p>
+
+<p>
+The records you store will contain information on various mountains around the
+world.  A record will consist of 60 characters and will have three fields:
+</p><ul>
+<li>name: 27 characters (the key field)</li>
+<li>country: 27 characters</li>
+<li>altitude (in feet): 6 characters</li>
+</ul>
+
+The characters will be either data characters or '\000' which terminate
+the strings and fill out the remainder of the fields.  Altitudes will be
+stored as character strings, not ints.
+<p></p>
+
+<p>
+Your program will open a (real) file containing records in the format:
+</p><pre><tt><blockquote>
+Shasta, Mount#United States#14162
+</blockquote></tt></pre>
+with each record on its own line.  The program will reformat each line from the 
+input into the 60-character record format and build the data sectors and index.
+ If the data read is too long to fit into the field truncate the data to fit.
+The program will then go into a loop displaying a menu offering the choices:
+<ul>
+<li>Insert new record</li>
+<li>Find record</li>
+<li>Quit</li>
+</ul>
+and accept the user's choice.  If the user chooses "Insert new record" the 
+program will prompt for the three fields, format a 60-character record with the 
+data, And insert the record.  The program will display whether the insertion
+was successful or not.  If the user chooses "Find record" the program will
+prompt for the mountain's name (the key) and will search for a record with that
+key. If a record is found its fields will be displayed in the format:
+<pre><tt><blockquote>
+Shasta, Mount, country: United States, altitude: 14162 ft.
+</blockquote></tt></pre>
+If no record is found a message to that effect will be displayed.  The program 
+will run until the user chooses "Quit."
+<p></p>
+
+<h3>On character arrays and Strings</h3>
+
+<p>
+In working with sectors and records you will need to put the character contents 
+of Strings into character arrays and to put parts of character arrays into 
+Strings.  Some useful methods for this follow.
+</p>
+
+Methods from String class
+
+<tt><blockquote><pre>public void getChars(int srcBegin, int srcEnd, char[] dest, int destBegin)
+<blockquote>
+Copies a substring to a character array.
+srcBegin -- index of first char in the string to copy
+srcEnd -- index after the last char in the string to copy
+dest -- the destination array
+destBegin -- the start index in the destination array
+Throws IndexOutOfBoundsException.
+</blockquote>
+</pre></blockquote></tt>
+
+<tt><blockquote><pre>public String subString(int beginIndex)
+<blockquote>
+Returns a substring of the original string beginning with the character at 
+beginIndex to the end of the original string.
+Throws IndexOutOfBoundsException.
+</blockquote>
+</pre></blockquote></tt>
+
+<tt><blockquote><pre>public String subString(int beginIndex, int endIndex)
+<blockquote>
+Returns a substring of the original string beginning with the character at 
+beginIndex ending at character at endIndex - 1.
+Throws IndexOutOfBoundsException.
+</blockquote>
+</pre></blockquote></tt>
+
+<tt><blockquote><pre>public char charAt(int index)
+<blockquote>
+Returns the character at index.
+Throws IndexOutOfBoundsException.
+</blockquote>
+</pre></blockquote></tt>
+
+The NULL character, to be used in character arrays as a terminator and to fill 
+out parts of a record, can be represented as <tt>'\000'</tt> or 
+<tt>(char)0</tt>.
+
+<h3>To hand in</h3>
+<p>
+You will hand in (all in hardcopy) your source code, 
+a sample terminal session, and a sheet stating which parts of the assignment (if 
+any) are incomplete.  For the terminal session you will use "mountain data" in 
+the format described above.  A file containing the initial data to store on your 
+disk (a <em>large</em> number of mountains) will be made available for download 
+from the class website.  A list of commands to use for your terminal session 
+will also be posted there.
+</p>
+
+
+
+</font>
+
+
+</body></html>
